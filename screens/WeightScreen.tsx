@@ -1,22 +1,29 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, ScrollView } from 'react-native';
+import calculatePricePerThousand from '../utils/calculatePricePerThousand';
+import ProductInputs from '../components/ProductInputs';
 
 export default function WeightScreen() {
   return (
-    <View style={styles.container}>
-      <Text style={styles.text}>Weight!</Text>
-    </View>
+    <ScrollView style={styles.container}>
+      <ProductInputs
+        units={['g', 'kg']}
+        calcFunction={calculatePricePerThousand}
+        finalUnit="kilo"
+      />
+      <ProductInputs
+        units={['g', 'kg']}
+        calcFunction={calculatePricePerThousand}
+        finalUnit="kilo"
+      />
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  text: {
-    fontSize: 30,
-    color: '#000',
+    padding: 10,
+    overflow: 'visible',
   },
 });
