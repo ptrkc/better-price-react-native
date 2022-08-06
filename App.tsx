@@ -24,6 +24,7 @@ export default function App() {
           },
           tabBarActiveTintColor: 'blue',
           tabBarInactiveTintColor: 'gray',
+          tabBarHideOnKeyboard: true,
         })}>
         <Tab.Screen name="Weight" component={WeightScreen} />
         <Tab.Screen name="Volume" component={VolumeScreen} />

@@ -5,17 +5,36 @@ import {
   TextInput,
   View,
   TouchableOpacity,
+  ScrollView,
 } from 'react-native';
 
-export default function VolumeScreen() {
-  const [selectedUnit, setSelectedUnit] = useState('l');
+const calculatePricePerLitter = (
+  quantity: string,
+  unit: string,
+  price: string,
+) => {
+  const liters =
+    unit === 'ml' ? parseFloat(quantity) / 1000 : parseFloat(quantity);
+  const pricePerLiter = (parseFloat(price) / liters).toFixed(3);
+  return pricePerLiter === 'NaN' ? '' : `$${pricePerLiter}`;
+};
+
+const ProductInputs = ({ units }: { units: Array<string> }) => {
+  const [selectedUnit, setSelectedUnit] = useState(units[1]);
+  const [quantity, setQuantity] = useState('');
+  const [price, setPrice] = useState('');
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.text}>Volume!</Text>
+    <View style={styles.card}>
+      <Text style={styles.text}>Quantity:</Text>
       <View style={styles.row}>
-        <TextInput keyboardType="decimal-pad" style={styles.input} />
-        {['l', 'ml'].map(unit => (
+        <TextInput
+          value={quantity}
+          onChangeText={value => setQuantity(value)}
+          keyboardType="decimal-pad"
+          style={styles.input}
+        />
+        {units.map(unit => (
           <TouchableOpacity
             key={unit}
             onPress={() => setSelectedUnit(unit)}
@@ -30,8 +49,27 @@ export default function VolumeScreen() {
           </TouchableOpacity>
         ))}
       </View>
-      <TextInput keyboardType="decimal-pad" style={styles.input} />
+      <Text style={styles.text}>Price:</Text>
+      <TextInput
+        value={price}
+        onChangeText={value => setPrice(value)}
+        keyboardType="decimal-pad"
+        style={styles.input}
+      />
+      <Text style={styles.text}>
+        Price per liter:{' '}
+        {calculatePricePerLitter(quantity, selectedUnit, price)}
+      </Text>
     </View>
+  );
+};
+
+export default function VolumeScreen() {
+  return (
+    <ScrollView style={styles.container}>
+      <ProductInputs units={['ml', 'l']} />
+      <ProductInputs units={['ml', 'l']} />
+    </ScrollView>
   );
 }
 
@@ -39,6 +77,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 10,
+  },
+  card: {
+    backgroundColor: 'white',
+    margin: 8,
+    padding: 10,
+    borderRadius: 12,
+    overflow: 'hidden',
+    elevation: 5,
   },
   row: {
     width: ' 100%',
