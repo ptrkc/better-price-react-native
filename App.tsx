@@ -2,6 +2,7 @@ import React from 'react';
 import { Text } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+
 import WeightScreen from './screens/WeightScreen';
 import VolumeScreen from './screens/VolumeScreen';
 
